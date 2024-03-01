@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import ThemeMode, { type Options } from 'theme-mode'
+import ThemeMode, { type Options, options as defaultOptions } from 'theme-mode'
 import { onMounted, provide, shallowReactive, onUnmounted } from 'vue'
 
-const props = defineProps<{ host?: HTMLElement, options?: Options }>()
-const themeMode = shallowReactive<ThemeMode>(new ThemeMode(props.options, props.host))
+const { host, ...options } = withDefaults(defineProps<Options & { host?: HTMLElement }>(), defaultOptions)
+const themeMode = shallowReactive<ThemeMode>(new ThemeMode(options, host))
 
 onMounted(() => themeMode.init())
 onUnmounted(() => themeMode.destroy())
