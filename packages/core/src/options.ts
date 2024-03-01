@@ -1,12 +1,12 @@
 export declare interface Options {
-    default?: ThemeValue
+    preference?: ThemePreference
     store?: string | false
 }
 
 export const options: Options = {
-    store: 'theme'
+    store: 'theme-mode'
 }
 
 export default options
 
-export declare type ThemeValue = 'dark' | 'light' | 'system' | string
+export declare type ThemePreference = 'dark' | 'light' | 'system' | string
