@@ -1,0 +1,73 @@
+{
+    "name": "@master/theme-mode.react",
+    "type": "module",
+    "scripts": {
+        "build": "techor build \"src/**/*.tsx\"",
+        "dev": "pnpm build --watch",
+        "lint": "eslint src",
+        "e2e": "playwright test -c e2e/playwright-ct.config.ts",
+        "check:type": "tsc --noEmit"
+    },
+    "license": "MIT",
+    "description": "A lightweight utility for switching CSS theme modes",
+    "author": "Aoyue Design LLC.",
+    "funding": "https://css.master.co/docs/donate",
+    "homepage": "https://github.com/master-co/theme-mode",
+    "bugs": {
+        "url": "https://github.com/master-co/theme-mode/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/master-co/theme-mode.git",
+        "directory": "packages/react"
+    },
+    "keywords": [
+        "theme-mode",
+        "component",
+        "element",
+        "provider",
+        "react",
+        "hooks",
+        "use",
+        "css",
+        "mastercss",
+        "reactjs",
+        "nextjs",
+        "solidjs",
+        "server-component",
+        "client-component"
+    ],
+    "sideEffects": false,
+    "main": "./dist/index.cjs",
+    "jsnext:main": "./dist/index.mjs",
+    "esnext": "./dist/index.mjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.mjs",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
+    "peerDependencies": {
+        "@types/react": ">=15",
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+    },
+    "dependencies": {
+        "theme-mode": "workspace:^"
+    },
+    "devDependencies": {
+        "@playwright/experimental-ct-react": "1.41.0",
+        "@playwright/test": "1.41.0",
+        "eslint-plugin-react-hooks": "^4.6.0"
+    }
+}

@@ -1,0 +1,77 @@
+{
+    "name": "@master/theme-mode.vue",
+    "type": "module",
+    "scripts": {
+        "build:main": "vite build",
+        "build:type": "vue-tsc --declaration --emitDeclarationOnly",
+        "build": "pnpm run \"/^build:/\"",
+        "dev": "pnpm run build:main --watch",
+        "lint": "eslint src",
+        "e2e": "playwright test -c e2e/playwright-ct.config.ts",
+        "check:type": "vue-tsc --noEmit"
+    },
+    "license": "MIT",
+    "description": "A lightweight utility for switching CSS theme modes",
+    "author": "Aoyue Design LLC.",
+    "funding": "https://css.master.co/docs/donate",
+    "homepage": "https://github.com/master-co/theme-mode",
+    "bugs": {
+        "url": "https://github.com/master-co/theme-mode/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/master-co/theme-mode.git",
+        "directory": "packages/vue"
+    },
+    "keywords": [
+        "theme-mode",
+        "component",
+        "element",
+        "provider",
+        "vue",
+        "hooks",
+        "use",
+        "css",
+        "mastercss",
+        "vuejs",
+        "nuxtjs"
+    ],
+    "sideEffects": false,
+    "main": "./dist/index.cjs",
+    "jsnext:main": "./dist/index.js",
+    "esnext": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
+    "peerDependencies": {
+        "vue": ">=3.0.0"
+    },
+    "dependencies": {
+        "theme-mode": "workspace:^"
+    },
+    "devDependencies": {
+        "@playwright/experimental-ct-vue": "1.41.2",
+        "@playwright/test": "1.41.2",
+        "@types/node": "^20.11.24",
+        "@vitejs/plugin-vue": "^4.6.2",
+        "@vue/server-renderer": "^3.4.19",
+        "@vue/test-utils": "^2.4.4",
+        "@vue/tsconfig": "^0.4.0",
+        "typescript": "^5.3.3",
+        "vite": "^5.1.4",
+        "vue-tsc": "^1.8.27"
+    }
+}

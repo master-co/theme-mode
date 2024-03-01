@@ -1,0 +1,28 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "postinstall": "pnpm dlx husky install",
+        "build": "pnpm --filter \"./packages/*\" build",
+        "dev": "pnpm --filter \"./packages/*\" dev",
+        "test": "pnpm --filter \"./packages/*\" --parallel test",
+        "e2e": "pnpm --filter \"./packages/*\" --parallel e2e",
+        "lint": "pnpm --filter \"./packages/*\" --parallel lint",
+        "check:type": "pnpm --filter \"./packages/*\" --parallel type-check",
+        "check:commit": "commitlint --from=HEAD~1 --verbose"
+    },
+    "packageManager": "^pnpm@8.15.3",
+    "engines": {
+        "node": "^20"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/master-co/theme-mode.git"
+    },
+    "dependencies": {
+        "@techor/repo": "^3.0.17"
+    },
+    "devDependencies": {
+        "theme-mode": "workspace:^"
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "name": "theme-mode",
+    "type": "module",
+    "scripts": {
+        "build": "techor build \"src/**/*.ts\"",
+        "dev": "pnpm build --watch",
+        "lint": "eslint src",
+        "test": "jest",
+        "check:type": "tsc --noEmit"
+    },
+    "license": "MIT",
+    "description": "A lightweight utility for switching CSS theme modes",
+    "author": "Aoyue Design LLC.",
+    "funding": "https://css.master.co/docs/donate",
+    "homepage": "https://github.com/master-co/theme-mode",
+    "bugs": {
+        "url": "https://github.com/master-co/theme-mode/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/master-co/theme-mode.git",
+        "directory": "packages/core"
+    },
+    "keywords": [
+        "theme",
+        "theme-mode",
+        "mode",
+        "mastercss",
+        "color-scheme",
+        "dark-mode",
+        "css"
+    ],
+    "sideEffects": false,
+    "main": "./dist/index.cjs",
+    "jsnext:main": "./dist/index.mjs",
+    "esnext": "./dist/index.mjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.mjs",
+            "types": "./dist/index.d.ts"
+        },
+        "./get-pre-init-script": {
+            "require": "./dist/get-pre-init-script.cjs",
+            "import": "./dist/get-pre-init-script.mjs",
+            "types": "./dist/get-pre-init-script.d.ts"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
+    "devDependencies": {
+        "@techor/jest-dom": "^3.0.17"
+    }
+}
