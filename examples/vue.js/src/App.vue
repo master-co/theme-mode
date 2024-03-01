@@ -7,7 +7,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 
 <template>
     <CSSRuntimeProvider :config="config">
-        <ThemeModeProvider :options="{ preference: 'system' }">
+        <ThemeModeProvider preference="system">
             <HelloWorld />
         </ThemeModeProvider>
     </CSSRuntimeProvider>
