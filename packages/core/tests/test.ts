@@ -1,24 +1,20 @@
 import './mock-match-media'
 import ThemeMode from '../src'
 
-const themeMode = new ThemeMode({ default: 'dark' }).init()
+const themeMode = new ThemeMode({ preference: 'dark' }).init()
 
 it('contains dark class and the dark color scheme', () => {
     expect(document.documentElement.classList.contains('dark')).toBeTruthy()
     expect(document.documentElement.getAttribute('style')).toEqual('color-scheme: dark;')
 })
 
-it(`localStorage should be null after initThemeMode`, () => {
-    expect(localStorage.getItem('theme')).toBeNull()
-})
-
 it('switches to the light theme', () => {
-    themeMode.switch('light')
+    themeMode.preference = 'light'
     expect(document.documentElement.classList.contains('light')).toBeTruthy()
     expect(document.documentElement.getAttribute('style')).toEqual('color-scheme: light;')
-    expect(themeMode.current).toBe('light')
     expect(themeMode.value).toBe('light')
-    expect(localStorage.getItem('theme')).toBe('light')
+    expect(themeMode.preference).toBe('light')
+    expect(localStorage.getItem('theme-preference')).toBe('light')
 })
 
 it('should not contain the dark class after switching', () => {
@@ -26,21 +22,21 @@ it('should not contain the dark class after switching', () => {
 })
 
 it('switches to the user\'s system preference', () => {
-    themeMode.switch('system')
+    themeMode.preference = 'system'
     // In the jest-dom mock environment, it's always the light theme.
     expect(document.documentElement.classList.contains('light')).toBeTruthy()
     expect(document.documentElement.getAttribute('style')).toEqual('color-scheme: light;')
-    expect(themeMode.current).toBe('light')
-    expect(themeMode.value).toBe('system')
-    expect(localStorage.getItem('theme')).toBe('system')
+    expect(themeMode.value).toBe('light')
+    expect(themeMode.preference).toBe('system')
+    expect(localStorage.getItem('theme-preference')).toBe('system')
 })
 
 it('switches to a custom theme', () => {
-    themeMode.switch('christmas')
+    themeMode.preference = 'christmas'
     expect(document.documentElement.classList.contains('christmas')).toBeTruthy()
-    expect(themeMode.current).toBe('christmas')
     expect(themeMode.value).toBe('christmas')
-    expect(localStorage.getItem('theme')).toBe('christmas')
+    expect(themeMode.preference).toBe('christmas')
+    expect(localStorage.getItem('theme-preference')).toBe('christmas')
 })
 
 it('should not contain the color scheme style after switching', () => {
@@ -48,9 +44,9 @@ it('should not contain the color scheme style after switching', () => {
 })
 
 it('destroys and restores', () => {
-    themeMode.switch('dark')
+    themeMode.preference = 'dark'
     themeMode.destroy()
     expect(document.documentElement.className).toBeFalsy()
     expect(document.documentElement.getAttribute('style')).toBeFalsy()
-    expect(localStorage.getItem('theme')).toBeNull()
+    expect(localStorage.getItem('theme-preference')).toBeNull()
 })

@@ -4,7 +4,7 @@ export declare interface Options {
 }
 
 export const options: Options = {
-    store: 'theme-mode'
+    store: 'theme-preference'
 }
 
 export default options

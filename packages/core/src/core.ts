@@ -3,7 +3,7 @@ import defaultOptions, { Options, ThemePreference } from './options'
 export default class ThemeMode {
 
     private _darkMQL?: MediaQueryList
-    private _preference?: ThemePreference | null
+    private _preference?: ThemePreference
     private _value?: string | null
     public initialized = false
 
