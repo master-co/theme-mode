@@ -1,6 +1,6 @@
 export declare interface Options {
     preference?: ThemePreference
-    store?: string | false
+    store?: 'theme-preference' | string | false
 }
 
 export const options: Options = {

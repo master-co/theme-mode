@@ -2,7 +2,7 @@ import defaultOptions, { Options } from './options'
 
 export default function getPreInitScript(options?: Options) {
     options = Object.assign(defaultOptions, options)
-    return `let e${options.default ? `='${options.default}'` : ''};const c=localStorage.getItem("${options.store}");c&&(e=c);let t=e;e==="system"&&(t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const s=document.documentElement;s.classList.add(t);if(t==='dark'||t==='light'){s.style.colorScheme=t;};`
+    return `let e${options.preference ? `='${options.preference}'` : ''};const c=localStorage.getItem("${options.store}");c&&(e=c);let t=e;e==="system"&&(t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const s=document.documentElement;s.classList.add(t);if(t==='dark'||t==='light'){s.style.colorScheme=t;};`
 }
 
 // 原始碼參考

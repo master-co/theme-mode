@@ -5,12 +5,12 @@ export default class ThemeMode {
     private _darkMQL?: MediaQueryList
     private _preference?: ThemePreference
     private _value?: string | null
-    public initialized = false
 
     constructor(
         public options?: Options,
         public host = typeof document !== 'undefined' ? document.documentElement : null
     ) {
+        console.log(options)
         this.options = options ? Object.assign(defaultOptions, options) : defaultOptions
     }
 
@@ -22,7 +22,6 @@ export default class ThemeMode {
         } else if (this.options?.preference) {
             this.preference = this.options.preference
         }
-        this.initialized = true
         return this
     }
 
@@ -43,10 +42,11 @@ export default class ThemeMode {
                 this._removeDarkMQLListener()
                 this.value = preference
             }
+            console.log(this.options?.store)
             if (this.options?.store)
                 preference
-                    ? localStorage.setItem(this.options?.store || 'theme-preference', preference)
-                    : localStorage.removeItem(this.options?.store || 'theme-preference')
+                    ? localStorage.setItem(this.options.store || 'theme-preference', preference)
+                    : localStorage.removeItem(this.options.store || 'theme-preference')
             this.host?.dispatchEvent(new CustomEvent('themePreferenceChange', { detail: this }))
             this._preference = preference
         }
@@ -95,8 +95,5 @@ export default class ThemeMode {
         if (this.options?.store) {
             localStorage.removeItem(this.options.store)
         }
-        this._value = null
-        this._preference = null
-        this.initialized = false
     }
 }
