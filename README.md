@@ -219,9 +219,9 @@ If you've pre-rendered your CSS styles to the page to improve the page loading a
 
 By default, three modules of minified advanced initial scripts for different default themes are exported:
 
-- `theme-mode/pre-init`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init.min.ts
-- `theme-mode/pre-init-light`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-light.min.ts
-- `theme-mode/pre-init-dark`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-dark.min.ts
+- `theme-mode/pre-init`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init.iife.min.ts
+- `theme-mode/pre-init-light`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-light.iife.min.ts
+- `theme-mode/pre-init-dark`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-dark.iife.min.ts
 
 You have to use the build tool to inject these original scripts into HTML `<head>`, taking Next.js as an example:
 ```tsx
