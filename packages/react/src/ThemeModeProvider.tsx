@@ -1,14 +1,11 @@
 'use client'
 
-import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react'
-import ThemeMode, { type ThemePreference, type ThemeValue, type Options } from 'theme-mode'
+import React, { useState, useEffect, createContext, useContext, ReactNode, useCallback, useLayoutEffect, EffectCallback, DependencyList } from 'react'
+import ThemeMode, { type Options } from 'theme-mode'
 
-const Context = createContext<ThemeModeContext>(null)
-
-export declare type ThemeModeContext = {
-    setPreference: React.Dispatch<ThemePreference>
-    setValue: React.Dispatch<ThemeValue>
-} & ThemeMode | null
+const Context = createContext<ThemeMode | null>(null)
+const useIsomorphicEffect: (effect: EffectCallback, deps?: DependencyList) => void =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 declare type Props = Options & {
     children: ReactNode
@@ -17,28 +14,29 @@ declare type Props = Options & {
 
 export default function ThemeModeProvider({ children, host, ...options }: Props) {
     const [themeMode] = useState(new ThemeMode(options, host))
-    const [preference, setPreference] = useState<ThemePreference>(themeMode.preference)
-    const [value, setValue] = useState<ThemeValue>(themeMode.value)
+    const createProxy = useCallback(() => new Proxy(themeMode, {
+        set: (target, prop, value) => {
+            setProxyThemeMode(createProxy())
+            return Reflect.set(target, prop, value)
+        }
+    }), [themeMode])
+    const [proxyThemeMode, setProxyThemeMode] = useState(createProxy())
 
-    useEffect(() => {
-        themeMode.preference = preference
-        setValue(themeMode.value)
-    }, [preference, themeMode])
+    const onThemeModeChange = useCallback(() => {
+        setProxyThemeMode(createProxy())
+    }, [createProxy])
 
-    useEffect(() => {
-        themeMode.value = value
-    }, [value, themeMode])
-
-    useEffect(() => {
-        console.log(localStorage.getItem('theme-preference'))
-        themeMode.init()
-        setPreference(themeMode.preference)
-        setValue(themeMode.value)
-        return () => themeMode.destroy()
-    }, [themeMode])
+    useIsomorphicEffect(() => {
+        proxyThemeMode.init()
+        proxyThemeMode.host?.addEventListener('themeModeChange', onThemeModeChange, { passive: true })
+        return () => {
+            proxyThemeMode.destroy()
+            proxyThemeMode.host?.removeEventListener('themeModeChange', onThemeModeChange)
+        }
+    }, [createProxy])
 
     return (
-        <Context.Provider value={{ ...themeMode, setPreference, setValue, preference, value } as ThemeModeContext}>{children}</Context.Provider>
+        <Context.Provider value={proxyThemeMode}>{children}</Context.Provider>
     )
 }
 
