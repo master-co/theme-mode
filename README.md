@@ -85,6 +85,9 @@ npm install theme-mode
 import ThemeMode from 'theme-mode'
 
 const themeMode = new ThemeMode().init()
+
+// Set `preference` anywhere to switch theme modes.
+themeMode.preference = 'dark'
 ```
 
 ### React
