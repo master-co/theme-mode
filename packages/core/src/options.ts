@@ -10,3 +10,4 @@ export const options: Options = {
 export default options
 
 export declare type ThemePreference = 'dark' | 'light' | 'system' | string
+export declare type ThemeValue = 'dark' | 'light' | string

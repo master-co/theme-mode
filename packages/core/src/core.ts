@@ -1,16 +1,15 @@
-import defaultOptions, { Options, ThemePreference } from './options'
+import defaultOptions, { Options, ThemePreference, ThemeValue } from './options'
 
 export default class ThemeMode {
 
     private _darkMQL?: MediaQueryList
     private _preference?: ThemePreference
-    private _value?: string | null
+    private _value?: ThemeValue
 
     constructor(
         public options?: Options,
         public host = typeof document !== 'undefined' ? document.documentElement : null
     ) {
-        console.log(options)
         this.options = options ? Object.assign(defaultOptions, options) : defaultOptions
     }
 
@@ -22,6 +21,7 @@ export default class ThemeMode {
         } else if (this.options?.preference) {
             this.preference = this.options.preference
         }
+        console.log(this.preference)
         return this
     }
 
@@ -29,24 +29,21 @@ export default class ThemeMode {
         return this.options?.store && localStorage.getItem(this.options.store)
     }
 
-    get systemPreference(): string {
+    get systemValue(): ThemeValue {
         return this._darkMQL?.matches ? 'dark' : 'light'
     }
 
-    set preference(preference: ThemePreference | undefined) {
+    set preference(preference: ThemePreference) {
         if (preference !== this._preference) {
             if (preference === 'system') {
                 this._darkMQL?.addEventListener?.('change', this._onThemeChange)
-                this.value = this.systemPreference
+                this.value = this.systemValue
             } else {
                 this._removeDarkMQLListener()
                 this.value = preference
             }
-            console.log(this.options?.store)
-            if (this.options?.store)
-                preference
-                    ? localStorage.setItem(this.options.store || 'theme-preference', preference)
-                    : localStorage.removeItem(this.options.store || 'theme-preference')
+            if (this.options?.store && preference)
+                localStorage.setItem(this.options.store || 'theme-preference', preference)
             this.host?.dispatchEvent(new CustomEvent('themePreferenceChange', { detail: this }))
             this._preference = preference
         }
@@ -56,7 +53,7 @@ export default class ThemeMode {
         return this._preference
     }
 
-    set value(value: string | undefined) {
+    set value(value: ThemeValue) {
         const previous = this._value
         this._value = value
         if (this.host && previous !== value) {
@@ -91,9 +88,6 @@ export default class ThemeMode {
             this.host.style.removeProperty('color-scheme')
             if (this.value)
                 this.host.classList.remove(this.value)
-        }
-        if (this.options?.store) {
-            localStorage.removeItem(this.options.store)
         }
     }
 }
