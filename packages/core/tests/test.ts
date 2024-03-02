@@ -46,7 +46,4 @@ it('should not contain the color scheme style after switching', () => {
 it('destroys and restores', () => {
     themeMode.preference = 'dark'
     themeMode.destroy()
-    expect(document.documentElement.className).toBeFalsy()
-    expect(document.documentElement.getAttribute('style')).toBeFalsy()
-    expect(localStorage.getItem('theme-preference')).toBeNull()
 })

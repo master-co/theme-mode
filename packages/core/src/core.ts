@@ -34,7 +34,6 @@ export default class ThemeMode {
     }
 
     set preference(preference: ThemePreference) {
-        console.log(preference, this._preference)
         if (preference !== this._preference) {
             if (preference === 'system') {
                 this._darkMQL?.addEventListener?.('change', this._onThemeChange)

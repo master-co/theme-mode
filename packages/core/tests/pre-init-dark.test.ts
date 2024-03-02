@@ -1,9 +1,7 @@
 import './mock-match-media'
-import getPreInitScript from '../src/get-pre-init-script'
+import '../src/pre-init-dark.iife.min'
 
-it('checks if init script syncs via localStorage', () => {
-    localStorage.setItem('theme', 'dark')
-    eval(getPreInitScript())
+it('checks pre-init script', async () => {
     expect(document.documentElement.classList.contains('dark')).toBeTruthy()
     expect(document.documentElement.getAttribute('style')).toEqual('color-scheme: dark;')
 })
