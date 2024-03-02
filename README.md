@@ -60,6 +60,11 @@ Vanilla, Next, React, Vue, and Master CSS are available:
 * 💫 Access theme preferences and modes through context
 * 🧩 Built-in `"use client"` directive
 
+## Why should I use this?
+CSS's `prefers-color-scheme` feature query cannot force override to the specified color mode. Once you want to switch themes, you cannot use `@media (prefers-color-scheme: dark)`.
+
+https://stackoverflow.com/questions/56300132/how-to-override-css-prefers-color-scheme-setting
+
 ## How does this work?
 This package automatically switches themes using `class=""` and `color-scheme:`; that's it.
 ```html
@@ -124,7 +129,7 @@ import ThemeModeProvider from '@master/theme-mode.vue'
 
 ## Basic usage
 ### Default to light or dark mode
-You can set the default theme mode when the user has not set a theme preference, such as common `light` or `dark` mode:,
+You can set the default theme mode when the user has not set a theme preference, such as common `light` or `dark` mode.
 ```tsx
 <ThemeModeProvider preference="dark">...</ThemeModeProvider>
 ```
@@ -147,7 +152,7 @@ Rendered as:
 > Note: CSS only supports light and dark modes for system preferences.
 
 ### Sync the user's preference to `localStorage`
-By default `options.store` is set to `theme-preference`, which uses this key to perform local storage when the preference is changed.
+By default `options.store` is set to `'theme-preference'`, which uses this key to set local storage when the preference is changed.
 
 In this way, the theme preference set last time will be applied when the user visits or refreshes the website again.
 
