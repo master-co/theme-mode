@@ -8,7 +8,7 @@
         <img alt="Master" src="https://user-images.githubusercontent.com/33840671/205238945-3295c4f5-a88a-4b58-bca9-770fe7bf894e.svg" width="100%">
     </picture>
 </p>
-<p align="center">Create reusable and extensible styled elements in one line</p>
+<p align="center">A lightweight utility for switching CSS theme modes</p>
 
 <p align="center">
     <a aria-label="GitHub release (latest by date including pre-releases)" href="https://github.com/master-co/theme-mode/releases">
@@ -51,257 +51,240 @@
 </div>
 
 ## Features
-Vanilla.js, React, Vue.js, Tailwind CSS, and [Master CSS](https://rc.css.master.co/docs/installation) are available:
+Vanilla, Next, React, Vue, and Master CSS are available:
 
-* ⚡️ Ultra-lightweight **~1.5KB**, powered by [`Proxy`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
-* 🛡️ Type safety
-* 🌈 Dynamically change styles based on properties
-* 💫 Re-expand existing elements, like `NextLink`
-* 🧩 Compatible with server and client components
-* 🪄 Built-in first-class [`clsx`](https://github.com/lukeed/clsx) handling
+* ⚡️ Ultra-lightweight **~1.2KB**
+* 🌈 Switch between `light`, `dark`, and `system`
+* 💖 Sync with system theme preferences
+* 💾 Store the user's preference in `localStorage`
+* 💫 Access theme preferences and modes through context
+* 🧩 Built-in `"use client"` directive
 
-## Why?
-😰 Traditionally, creating a simple styled element using a FunctionalComponent is unpleasant.
+## How does this work?
+This package automatically switches themes using `class=""` and `color-scheme:`; that's it.
+```html
+<html class="dark" style="color-scheme: dark">
+    <body>
+        <h1 class="bg:black@dark bg:white@light">Hello World</h1>
+    </body>
+</html>
+```
+To view the source code examples:
+
+- React example: https://github.com/master-co/theme-mode/tree/main/examples/react
+- Vue example: https://github.com/master-co/theme-mode/tree/main/examples/vue
+
+## Getting Started
+Install the package depending on your framework.
+
+### Vanilla
+```bash
+npm install theme-mode
+```
+```js
+import ThemeMode from 'theme-mode'
+
+const themeMode = new ThemeMode().init()
+```
+
+### React
+```bash
+npm install @master/theme-mode.react
+```
 ```tsx
-function Button(props) {
+import ThemeModeProvider from '@master/theme-mode.react'
+
+export default function App({ children }) {
     return (
-        <button {...props} className={"inline-flex font:14" + (props.className ? ' ' + props.className : '')}>
-            {props.children}
+        <ThemeModeProvider preference='system'>
+            {children}
+        </ThemeModeProvider>
+    )
+}
+```
+
+### Vue
+```bash
+npm install @master/theme-mode.vue
+```
+```vue
+<script setup lang="ts">
+import ThemeModeProvider from '@master/theme-mode.vue'
+</script>
+
+<template>
+    <ThemeModeProvider preference="system">
+        <slot></slot>
+    </ThemeModeProvider>
+</template>
+```
+
+## Basic usage
+### Default to light or dark mode
+You can set the default theme mode when the user has not set a theme preference, such as common `light` or `dark` mode:,
+```tsx
+<ThemeModeProvider preference="dark">...</ThemeModeProvider>
+```
+Rendered as:
+```html
+<html class="dark" style="color-scheme: dark">…</html>
+```
+
+### Default based on the system preference
+Automatically switches modes based on the user's system preference.
+```tsx
+<ThemeModeProvider preference="system">...</ThemeModeProvider>
+```
+Rendered as:
+```html
+<html class="light" style="color-scheme: light">…</html>
+<!-- or -->
+<html class="dark" style="color-scheme: dark">…</html>
+```
+> Note: CSS only supports light and dark modes for system preferences.
+
+### Sync the user's preference to `localStorage`
+By default `options.store` is set to `theme-preference`, which uses this key to perform local storage when the preference is changed.
+
+In this way, the theme preference set last time will be applied when the user visits or refreshes the website again.
+
+To disable local storage, set it to `false`.
+```tsx
+<ThemeModeProvider store={false}>...</ThemeModeProvider>
+```
+
+## Apply styles based on theme modes
+You can now create selector-driven CSS themes using tools like [Master CSS](https://rc.css.master.co/docs/variables-and-modes).
+```html
+<html class="light" style="color-scheme: light">
+    <body>
+        <div class="block@dark" hidden>Dark</div>
+        <div class="block@light" hidden>Light</div>
+        <div class="block@christmas" hidden>Christmas</div>
+    </body>
+</html>
+```
+
+## Create a theme-switching select
+### React
+```tsx
+import { useThemeMode } from '@master/theme-mode.react'
+
+export default function ThemeModeSelect() {
+    const themeMode = useThemeMode()
+    return (
+        <button>
+            {themeMode.value === 'dark' ? '🌜' : '☀️'} {themeMode.preference}
+            <select className="abs full inset:0 opacity:0"
+                value={themeMode.preference}
+                onChange={(event) => themeMode.preference = event.target.value}>
+                <option value="light">☀️ Light</option>
+                <option value="dark">🌜 Dark</option>
+                <option value="system">System</option>
+            </select>
         </button>
     )
 }
 ```
-🥳 Now it's in one line and ~80% code less.
-```tsx
-import styled from '@master/theme-mode.react' // or .vue
 
-const Button = styled.button`inline-flex font:14`
+### Vue
+```vue
+<script setup lang="ts">
+import { inject } from 'vue'
+const themeMode = inject<any>('theme-mode')
+</script>
+
+<template>
+    <button class="px:5x r:2x font:18 h:48 bg:slate-10@light bg:gray-80@dark fg:strong rel">
+        {{ themeMode.value === 'dark' ? '🌜' : '☀️' }} {{ themeMode.preference }}
+        <select class="abs full inset:0 opacity:0" v-model="themeMode.preference">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌜 Dark</option>
+            <option value="system">System</option>
+        </select>
+    </button>
+</template>
 ```
-Then apply it as usual:
+
+## Avoid FOUC
+If you've pre-rendered your CSS styles to the page to improve the page loading and first-render experience, it's crucial to initialize the theme mode in advance.
+
+By default, three modules of minified advanced initial scripts for different default themes are exported:
+
+- `theme-mode/pre-init`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init.min.ts
+- `theme-mode/pre-init-light`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-light.min.ts
+- `theme-mode/pre-init-dark`: https://github.com/master-co/theme-mode/tree/main/packages/core/src/pre-init-dark.min.ts
+
+You have to use the build tool to inject these original scripts into HTML `<head>`, taking Next.js as an example:
 ```tsx
-export default function App() {
+import PRE_INIT_THEME_MODE_SCRIPT from '!!raw-loader!theme-mode/pre-init';
+
+export default async function RootLayout({ children }: {
+    children: JSX.Element
+}) {
     return (
-        <Button className="uppercase">submit</Button>
+        <html suppressHydrationWarning>
+            <head>
+                <script dangerouslySetInnerHTML={{ __html: PRE_INIT_THEME_MODE_SCRIPT }}></script>
+                ...
+            </head>
+            ...
+        </html>
     )
 }
 ```
-It will be rendered as:
-```html
-<button class="inline-flex font:14 uppercase">submit</button>
-```
 
-## Getting Started
-Install the package `npm i theme-mode`, `npm i @master/theme-mode.react`, or `npm i @master/theme-mode.vue` depending on your framework:
-
-### Vanilla JS
+Or copy them directly:
 ```js
-import cv from 'theme-mode'
+const preference = localStorage.getItem('theme-preference') || 'system';
+const value = preference === 'system'
+    ? matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'
+    : preference;
 
-const btn = cv(...params)
-const btn = cv`...` // or
-
-btn(props) // -> string
+document.documentElement.classList.add(value);
+if (['dark', 'light'].includes(value)) document.documentElement.style.colorScheme = value;
 ```
 
-### React, Vue
-```js
-import styled from '@master/theme-mode.react'
-import styled from '@master/theme-mode.vue' // or
+Those JS resources cannot be loaded from external because this is a critical script for the first painting of the page.
 
-const Button = styled.button(...params)
-const Button = styled.button`...` // or
+## Options
+### `.preference`
+Specify the default theme preference.
+- Default: `undefined`
+- Value: `'dark'` | `'light'` | `'system'` | `string`
 
-<Button {...props}>
-```
+### `.store`
+Enable local storage and specify the key for `localStorage`.
+- Default: `'theme-preference'`
+- Value: `'theme-preference'` | `string` | `false`
 
-## Basic usage
-### Create a styled element
-Declared in two ways: function or template literal, and parameters inherit all features of [`clsx`](https://github.com/lukeed/clsx).
-```tsx
-const Element = styled.div`flex text:center`
-const Element = styled.div('flex text:center') // or
+## Properties
+### `themeMode.preference`
+Set or get the current theme preference.
+- Default: `undefined`
+- Value: `'dark'` | `'light'` | `'system'` | `string`
 
-return (
-    <Element className="uppercase">Hello World</Element>
-)
-```
-```html
-<div class="flex text:center uppercase">Hello World</div>
-```
+### `themeMode.value`
+Set or get the current theme mode.
+- Default: `undefined`
+- Value: `'dark'` | `'light'` | `string`
 
-### Apply based on predefined variants
-Predefine the class variant corresponding to the property.
-```tsx
-const Button = styled.button('flex', {
-    $size: {
-        sm: 'font:12 size:8x',
-        md: 'font:14 size:12x'
-    },
-    disabled: 'opacity:.5',
-    ...
-})
+### `themeMode.storage`
+Get the currently stored theme preference.
+- Default: `undefined`
+- Value: `'dark'` | `'light'` | `string`
 
-return (
-    <Button $size="sm" disabled />
-)
-```
-```html
-<button class="flex font:12 size:8x opacity:.5" disabled></button>
-```
-> ⚠️ Custom properties that are not element-owned properties must be prefixed with `$prop`, otherwise they will be reflected on the final element and an error may be thrown.
+### `themeMode.systemPreference`
+Get the theme mode of the current system
+- Default: `undefined`
+- Value: `'dark'` | `'light'` | `string`
 
-You can set default properties for elements.
-```tsx
-Button.defaultProps = {
-    $size: 'md'
-}
+## Methods
+### `themeMode.init()`
+Initialize the default theme mode. This is usually performed after the DOM has been initialized.
 
-return (
-    <Button />
-)
-```
-```html
-<button class="font:14 size:12x"></button>
-```
-
-### Apply based on function properties
-Dynamically apply class names based on function properties.
-```tsx
-const Element = styled.div('fg:white',
-    ({ $color }) => $color && `bg:${$color}`
-)
-
-return (
-    <Element $color="blue" />
-)
-```
-```html
-<div class="inline-flex text:center fg:white bg:blue"></div>
-```
-
-### Apply based on matching properties
-Applies the target class name matching all specified property keys and their values.
-```tsx
-const Button = styled.button('inline-flex',
-    ['uppercase', { $intent: 'primary', $size: 'md' }]
-)
-
-return (
-    <Button $intent="primary">Not matched</button>
-    <Button $size="md">Not matched</button>
-    <Button $intent="primary" $size="md">Matched</button>
-)
-```
-```html
-<button class="inline-flex">Not matched</button>
-<button class="inline-flex">Not matched</button>
-<button class="inline-flex uppercase">Matched</button>
-```
-
-## Extended
-### Extend a styled element
-Extend an existing styled element and add additional classes or conditions.
-```tsx
-const A = styled.p('a')
-const B = styled.p(A)`b`
-
-return (
-    <A>A</A>
-    <B>B</B>
-)
-```
-```html
-<p class="a">A</p>
-<p class="a b">B</p>
-```
-
-### Change an element's tag name
-Changing the original tag name of an element, such as `<button>` to `<a>`. Left empty '' even if there are no additional classes.
-```tsx
-const Button = styled.button('inline-flex')
-const Link = styled.a(Button)``
-
-return (
-    <Button>button</Button>
-    <Link href="#example">link</Link>
-)
-```
-```html
-<button class="inline-flex">button</button>
-<a class="inline-flex" href="#example">link</a>
-```
-
-### Extend multiple styled elements
-Extend multiple style elements at once.
-```tsx
-const A = styled.p`a`
-const B = styled.p`b`
-const C = styled.p`c`
-const D = styled(A)(B)(C)`d`
-
-return (
-    <A>A</A>
-    <B>B</B>
-    <C>C</C>
-    <D>D</D>
-)
-```
-```html
-<p class="a">A</p>
-<p class="b">B</p>
-<p class="c">C</p>
-<p class="a b c d">D</p>
-```
-
-## Typings
-```ts
-declare type Props = {
-    $size: 'sm' | 'md'
-}
-
-const Button = styled.button<Props>('flex', {
-    $size: {
-        sm: 'font:12 size:8x',
-        md: 'font:14 size:12x'
-    },
-    disabled: 'opacity:.5'
-})
-```
-
-## Overview `theme-mode` APIs
-```ts
-import cv from 'theme-mode'
-
-const btn = cv(
-    'inline-flex rounded',
-    {
-        intent: {
-            primary: 'bg:blue fg:white bg:blue-60:hover',
-            secondary: 'bg:white fg:slate-30 bg:slate-90:hover',
-        },
-        size: {
-            sm: 'text:14 p:5|15',
-            md: 'text:16 p:10|25'
-        }
-    },
-    ['uppercase', { intent: 'primary', size: 'md' }],
-    ({ indent, size }) => indent && size && 'font:semibold'
-)
-
-btn.default = {
-    intent: 'primary',
-    size: 'sm'
-}
-
-btn()
-// inline-flex rounded bg:blue fg:white bg:blue-55:hover text:14 p:5|8 font:semibold
-
-btn({ indent: 'secondary', size: 'sm' })
-// inline-flex rounded bg:white fg:slate-30 bg:slate-90:hover text:14 p:5|8 font:semibold
-
-btn({ indent: 'primary', size: 'md' })
-// inline-flex rounded bg:blue fg:white bg:blue-55:hover text:16 p:10|25 uppercase font:semibold
-```
+### `themeMode.destroy()`
+Destroy the theme mode, including removing media query listeners.
 
 ## Community
 The Master community can be found here:
@@ -313,7 +296,3 @@ The Master community can be found here:
 
 ## Contributing
 Please see our [CONTRIBUTING](https://github.com/master-co/theme-mode/blob/main/.github/CONTRIBUTING.md) for workflow.
-
-## Inspiration
-Some of our core concepts and designs are inspired by these giants.
-- **Template Literal** - The use of template literals as syntactic sugar for reusing components is inspired by [Styled Components](https://styled-components.com/).
