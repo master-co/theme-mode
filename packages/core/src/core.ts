@@ -8,12 +8,13 @@ export default class ThemeMode {
 
     constructor(
         public options?: Options,
-        public host = typeof document !== 'undefined' ? document.documentElement : null
+        public host?: HTMLElement
     ) {
         this.options = options ? Object.assign(defaultOptions, options) : defaultOptions
     }
 
     init() {
+        if (!this.host) this.host = document.documentElement
         this._darkMQL = matchMedia('(prefers-color-scheme:dark)')
         const storage = this.storage
         if (storage) {
@@ -21,7 +22,6 @@ export default class ThemeMode {
         } else if (this.options?.preference) {
             this.preference = this.options.preference
         }
-        console.log(this.preference)
         return this
     }
 
@@ -34,6 +34,7 @@ export default class ThemeMode {
     }
 
     set preference(preference: ThemePreference) {
+        console.log(preference, this._preference)
         if (preference !== this._preference) {
             if (preference === 'system') {
                 this._darkMQL?.addEventListener?.('change', this._onThemeChange)
@@ -84,10 +85,7 @@ export default class ThemeMode {
 
     destroy() {
         this._removeDarkMQLListener()
-        if (this.host) {
-            this.host.style.removeProperty('color-scheme')
-            if (this.value)
-                this.host.classList.remove(this.value)
-        }
+        this._preference = undefined
+        this._value = undefined
     }
 }
