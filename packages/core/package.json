@@ -2,7 +2,7 @@
     "name": "theme-mode",
     "type": "module",
     "scripts": {
-        "build": "techor build \"src/**/*.ts\"",
+        "build": "techor build",
         "dev": "pnpm build --watch",
         "lint": "eslint src",
         "test": "jest",
@@ -42,11 +42,9 @@
             "import": "./dist/index.mjs",
             "types": "./dist/index.d.ts"
         },
-        "./get-pre-init-script": {
-            "require": "./dist/get-pre-init-script.cjs",
-            "import": "./dist/get-pre-init-script.mjs",
-            "types": "./dist/get-pre-init-script.d.ts"
-        }
+        "./pre-init": "./dist/pre-init.iife.min.js",
+        "./pre-init-light": "./dist/pre-init-light.iife.min.js",
+        "./pre-init-dark": "./dist/pre-init-dark.iife.min.js"
     },
     "files": [
         "dist"
