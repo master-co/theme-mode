@@ -57,7 +57,7 @@
 [Try it out on the Master CSS documentation site.](https://rc.css.master.co/docs)
 
 ## Features
-Vanilla, Next, React, Vue, and Master CSS are available:
+Vanilla, Next, React, Vue, Svelte, and Master CSS are available:
 
 * ⚡️ Ultra-lightweight **~1.2KB**
 * 🌈 Switch between `light`, `dark`, and `system`
