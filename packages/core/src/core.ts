@@ -5,6 +5,7 @@ export default class ThemeMode {
     private _darkMQL?: MediaQueryList
     private _preference?: ThemePreference
     private _value?: ThemeValue
+    mounted = false
 
     constructor(
         public options?: Options,
@@ -14,6 +15,7 @@ export default class ThemeMode {
     }
 
     init() {
+        this.mounted = true
         if (!this.host) this.host = document.documentElement
         this._darkMQL = matchMedia('(prefers-color-scheme:dark)')
         const storage = this.storage
@@ -34,6 +36,7 @@ export default class ThemeMode {
     }
 
     set preference(preference: ThemePreference) {
+        if (!this.mounted) return
         if (preference !== this._preference) {
             if (preference === 'system') {
                 this._darkMQL?.addEventListener?.('change', this._onThemeChange)
@@ -54,6 +57,7 @@ export default class ThemeMode {
     }
 
     set value(value: ThemeValue) {
+        if (!this.mounted) return
         const previous = this._value
         this._value = value
         if (this.host && previous !== value) {
