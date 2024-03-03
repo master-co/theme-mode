@@ -1,12 +1,13 @@
 <script lang="ts">
     import { onMount, onDestroy, setContext } from "svelte";
     import { writable } from "svelte/store";
-    import ThemeMode, { type Options } from "theme-mode";
+    import ThemeMode, { type Options, options } from "theme-mode";
 
-    export let options: Options | undefined = undefined;
+    export let preference: Options["preference"] = options.preference;
+    export let store: Options["store"] = options.store;
     export let host: HTMLElement | undefined = undefined;
 
-    const themeMode = writable(new ThemeMode(options, host));
+    const themeMode = writable(new ThemeMode({ preference, store }, host));
     const onThemeModeChange = () => themeMode.set($themeMode);
 
     onMount(() => {
