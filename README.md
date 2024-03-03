@@ -82,9 +82,9 @@ This package automatically switches themes using `class=""` and `color-scheme:`;
 ```
 To view the source code examples:
 
-- React example: https://github.com/master-co/theme-mode/tree/main/examples/react
-- Vue example: https://github.com/master-co/theme-mode/tree/main/examples/vue
-- Svelte example: https://github.com/master-co/theme-mode/tree/main/packages/svelte
+- React: https://github.com/master-co/theme-mode/tree/main/examples/react
+- Vue: https://github.com/master-co/theme-mode/tree/main/examples/vue
+- Svelte: https://github.com/master-co/theme-mode/tree/main/examples/svelte
 
 ## Getting Started
 Install the package depending on your framework.
@@ -143,7 +143,7 @@ npm install @master/theme-mode.svelte
     import ThemeModeProvider from '@master/theme-mode.svelte';
 </script>
 
-<ThemeModeProvider options={{ preference: "system" }}>
+<ThemeModeProvider preference="system">
     ...
 </ThemeModeProvider>
 ```
