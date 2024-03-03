@@ -54,6 +54,8 @@
 
 ![theme-mode](https://github.com/master-co/theme-mode/assets/33840671/cf65624d-d757-4638-8ff2-f0c299851caf)
 
+[Try it out on the Master CSS documentation site.](https://rc.css.master.co/docs)
+
 ## Features
 Vanilla, Next, React, Vue, and Master CSS are available:
 
