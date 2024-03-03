@@ -50,6 +50,10 @@
 
 </div>
 
+<br>
+
+![theme-mode](https://github.com/master-co/theme-mode/assets/33840671/cf65624d-d757-4638-8ff2-f0c299851caf)
+
 ## Features
 Vanilla, Next, React, Vue, and Master CSS are available:
 
@@ -60,7 +64,8 @@ Vanilla, Next, React, Vue, and Master CSS are available:
 * 💫 Access theme preferences and modes through context
 * 🧩 Built-in `"use client"` directive
 
-## Why should I use this?
+## Why should I use
+ this?
 CSS's `prefers-color-scheme` feature query cannot force override to the specified color mode. Once you want to switch themes, you cannot use `@media (prefers-color-scheme: dark)`.
 
 https://stackoverflow.com/questions/56300132/how-to-override-css-prefers-color-scheme-setting
