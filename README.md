@@ -66,9 +66,8 @@ Vanilla, Next, React, Vue, and Master CSS are available:
 * 💫 Access theme preferences and modes through context
 * 🧩 Built-in `"use client"` directive
 
-## Why should I use
- this?
-CSS's `prefers-color-scheme` feature query cannot force override to the specified color mode. Once you want to switch themes, you cannot use `@media (prefers-color-scheme: dark)`.
+## Why should I use this?
+The `prefers-color-scheme` cannot force override to the specified color mode. Once you want to switch themes, you cannot use `@media (prefers-color-scheme: dark)`.
 
 https://stackoverflow.com/questions/56300132/how-to-override-css-prefers-color-scheme-setting
 
