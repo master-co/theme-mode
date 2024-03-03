@@ -84,6 +84,7 @@ To view the source code examples:
 
 - React example: https://github.com/master-co/theme-mode/tree/main/examples/react
 - Vue example: https://github.com/master-co/theme-mode/tree/main/examples/vue
+- Svelte example: https://github.com/master-co/theme-mode/tree/main/packages/svelte
 
 ## Getting Started
 Install the package depending on your framework.
@@ -131,6 +132,20 @@ import ThemeModeProvider from '@master/theme-mode.vue'
         <slot></slot>
     </ThemeModeProvider>
 </template>
+```
+
+### Svelte
+```bash
+npm install @master/theme-mode.svelte
+```
+```svelte
+<script lang="ts">
+    import ThemeModeProvider from '@master/theme-mode.svelte';
+</script>
+
+<ThemeModeProvider options={{ preference: "system" }}>
+    ...
+</ThemeModeProvider>
 ```
 
 ## Basic usage
@@ -218,6 +233,22 @@ const themeMode = inject<any>('theme-mode')
         </select>
     </button>
 </template>
+```
+
+### Svelte
+```svelte
+<script lang="ts">
+    import { getThemeMode } from "@master/theme-mode.svelte";
+    const themeMode = getThemeMode();
+</script>
+
+<span id="value">{$themeMode.value}</span>
+<span id="preference">{$themeMode.preference}</span>
+<select class="abs full inset:0 opacity:0" bind:value={$themeMode.preference}>
+    <option value="light">☀️ Light</option>
+    <option value="dark">🌜 Dark</option>
+    <option value="system">System</option>
+</select>
 ```
 
 ## Avoid FOUC

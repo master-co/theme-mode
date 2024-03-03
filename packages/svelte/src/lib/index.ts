@@ -1,4 +1,2 @@
-// export { cssRuntimeSymbol, getCSSRuntime } from './theme-mode'
-export * from './ThemeModeProvider.svelte'
-export * from './get-theme-mode'
-export { default } from './ThemeModeProvider.svelte'
+export { getThemeMode } from './get-theme-mode'
+export { default as ThemeModeProvider } from './ThemeModeProvider.svelte'
