@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/experimental-ct-svelte'
-import App from '../src/routes/+page.svelte'
+import App from './src/routes/+page.svelte'
 
 test('theme-mode', async ({ mount, page }) => {
     const app = await mount(App)
