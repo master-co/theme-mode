@@ -47,8 +47,8 @@ export default class ThemeMode {
             }
             if (this.options?.store && preference)
                 localStorage.setItem(this.options.store || 'theme-preference', preference)
-            this.host?.dispatchEvent(new CustomEvent('themePreferenceChange', { detail: this }))
             this._preference = preference
+            this.host?.dispatchEvent(new CustomEvent('themePreferenceChange', { detail: this }))
         }
     }
 
